@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecommerce.Models.EntityModels.CustomerEM;
 
-namespace Ecommerce.Models
+namespace Ecommerce.Models.Customer
 {
-    public class Customer
+    public class CustomerCreateViewModel
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string PhoneNo { get; set; }
         public string Address { get; set; }
         public bool IsDeleted { get; set; }
-
-        [NotMapped]
-        public List<Customer> Customers { get; set; } 
+        
+        //public ICollection<Customer> Customers { get; set; }
     }
 }

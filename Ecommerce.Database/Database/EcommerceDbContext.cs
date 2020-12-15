@@ -1,13 +1,14 @@
 ﻿using Ecommerce.Models;
+using Ecommerce.Models.EntityModels.CustomerEM;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ecommerce.Database
+namespace Ecommerce.Database.Database
 {
-    public class CustomerDbContext:DbContext
+    public class EcommerceDbContext : DbContext
     {
         public DbSet<Customer> customers { get; set; }
 

@@ -1,5 +1,9 @@
-﻿using Ecommerce.Database;
+﻿using Ecommerce.BLL;
+using Ecommerce.BLL.Abstruction;
+using Ecommerce.Database.Database;
 using Ecommerce.Models;
+using Ecommerce.Models.Customer;
+using Ecommerce.Models.EntityModels.CustomerEM;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,12 +14,16 @@ namespace Ecommerce.Controllers
 {
     public class CustomerController : Controller
     {
-        CustomerDbContext _db = new CustomerDbContext();
+        ICustomerManager _customerManager;
+        public CustomerController(ICustomerManager customerManager)
+        {
+            _customerManager = customerManager;
+        }
         [HttpGet]
         public IActionResult Index()
         {
             Customer customer = new Customer();
-            customer.Customers = _db.customers.Where(c => c.IsDeleted == false).ToList();
+            customer.Customers = _customerManager.GetAll();
             return View(customer);
         }
         [HttpPost]
@@ -23,8 +31,8 @@ namespace Ecommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Add(customer);
-                bool isAdded = _db.SaveChanges() > 0;
+
+                bool isAdded = _customerManager.Add(customer);
                 if (isAdded)
                 {
                     return RedirectToAction("List", "Customer", null);
@@ -38,7 +46,7 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult List()
         {
-            List<Customer> customers = _db.customers.Where(c=>c.IsDeleted==false).ToList();
+            ICollection<Customer> customers = _customerManager.GetAll();
 
             
             return View(customers);
@@ -48,7 +56,7 @@ namespace Ecommerce.Controllers
         {
             if(id!=null & id > 0)
             {
-                Customer customer = _db.customers.Find(id);
+                Customer customer = _customerManager.GetById(id);
                 if (customer != null)
                 {
                     return View(customer);
@@ -63,8 +71,8 @@ namespace Ecommerce.Controllers
         [HttpPost]
         public IActionResult Edit(Customer customer)
         {
-            _db.Entry(customer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            bool isUpdated = _db.SaveChanges()>0;
+
+            bool isUpdated = _customerManager.Update(customer);
             if (isUpdated)
             {
                 return RedirectToAction("List");
@@ -76,11 +84,9 @@ namespace Ecommerce.Controllers
         {
             if(id!=null && id > 0)
             {
-                var customer = _db.customers.Find(id);
-                customer.IsDeleted = true;
-                _db.Entry(customer).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                var isSaved = _db.SaveChanges() > 0;
-                if (isSaved)
+                var customer = _customerManager.GetById(id);
+                var isDeleted = _customerManager.Remove(customer);
+                if (isDeleted)
                 {
                     return RedirectToAction("List");
                 }
