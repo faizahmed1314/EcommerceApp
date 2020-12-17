@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Models.EntityModels.CustomerEM;
+using Ecommerce.Models.ResponseModels;
 
-namespace Ecommerce.Models.Customer
+namespace EcommerceApp.Models.Customer
 {
     public class CustomerCreateViewModel
     {
@@ -14,7 +15,7 @@ namespace Ecommerce.Models.Customer
         public string PhoneNo { get; set; }
         public string Address { get; set; }
         public bool IsDeleted { get; set; }
-        
-        //public ICollection<Customer> Customers { get; set; }
+
+        public ICollection<CustomerResponseModel> CustomerList { get; set; }
     }
 }

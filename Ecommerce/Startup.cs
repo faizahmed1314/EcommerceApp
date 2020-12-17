@@ -1,3 +1,4 @@
+using AutoMapper;
 using Ecommerce.BLL;
 using Ecommerce.BLL.Abstruction;
 using Ecommerce.DAL;
@@ -34,6 +35,7 @@ namespace Ecommerce
             services.AddTransient<ICustomerManager, CustomerManager>();
             services.AddTransient<ICustomerReopsitory, CustomerRepository>();
             services.AddTransient<DbContext, EcommerceDbContext>();
+            services.AddAutoMapper(typeof(Startup).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

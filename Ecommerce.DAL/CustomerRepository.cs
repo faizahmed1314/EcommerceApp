@@ -6,26 +6,21 @@ using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Ecommerce.DAL.Abstruction;
+using Ecommerce.DAL.Abstruction.Base;
 
 namespace Ecommerce.DAL
 {
-    public class CustomerRepository:ICustomerReopsitory
+    public class CustomerRepository : Repository<Customer>, ICustomerReopsitory
     {
         EcommerceDbContext _db;
-        public CustomerRepository(DbContext dbContext)
+        public CustomerRepository(DbContext dbContext) : base(dbContext)
         {
             _db = (EcommerceDbContext)dbContext;
         }
 
-        public  ICollection<Customer> GetAll()
+        public override ICollection<Customer> GetAll()
         {
-          return _db.customers.Where(c => c.IsDeleted == false).ToList();
-        }
-
-        public bool Add(Customer customer)
-        {
-            _db.customers.Add(customer);
-            return _db.SaveChanges() > 0;
+            return _db.customers.Where(c => c.IsDeleted == false).ToList();
         }
 
         public Customer GetById(int? id)
@@ -34,20 +29,8 @@ namespace Ecommerce.DAL
             {
                 return null;
             }
-            var customer = _db.customers.Find(id);
-            return customer;
+            return GetFirstOrDefault(c => c.Id == id);
         }
 
-        public bool Update(Customer customer)
-        {
-            _db.Entry(customer).State = EntityState.Modified;
-            return _db.SaveChanges() > 0;
-        }
-
-        public bool Remove(Customer customer)
-        {
-            customer.IsDeleted = true;
-            return Update(customer);
-        }
     }
 }

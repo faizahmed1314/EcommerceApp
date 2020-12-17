@@ -1,4 +1,4 @@
-﻿@model Ecommerce.Models.EntityModels.CustomerEM.Customer
+﻿@model EcommerceApp.Models.Customer.CustomerCreateViewModel
 @{
     Layout = "~/Views/Shared/_Admin.cshtml";
 }
@@ -25,7 +25,7 @@
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 </div>
-<partial name="/Views/Shared/PartialViews/Customer/_CustomerList.cshtml" model="@Model.Customers"/>
+<partial name="/Views/Shared/PartialViews/Customer/_CustomerList.cshtml" model="@Model.CustomerList"/>
 
 @section Scripts{ 
 <script src="~/js/customer/customer-create.js"></script>

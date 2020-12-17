@@ -1,14 +1,14 @@
 ﻿using Ecommerce.DAL.Abstruction.Base;
-using Ecommerce.Models.EntityModels.CustomerEM;
+using Ecommerce.Models.EntityModels.ProductEM;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Ecommerce.DAL.Abstruction
 {
-    public interface ICustomerReopsitory:IRepository<Customer>
+    public interface IProductRepository:IRepository<Product>
     {
-        Customer GetById(int? id);
+        Product GetById(int? id);
 
     }
 }

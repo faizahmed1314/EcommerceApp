@@ -1,5 +1,6 @@
 ﻿using Ecommerce.Models;
 using Ecommerce.Models.EntityModels.CustomerEM;
+using Ecommerce.Models.EntityModels.ProductEM;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Ecommerce.Database.Database
     public class EcommerceDbContext : DbContext
     {
         public DbSet<Customer> customers { get; set; }
+        public DbSet<Product> products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

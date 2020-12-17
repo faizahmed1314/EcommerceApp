@@ -2,35 +2,59 @@
 using Ecommerce.BLL.Abstruction;
 using Ecommerce.Database.Database;
 using Ecommerce.Models;
-using Ecommerce.Models.Customer;
+using EcommerceApp.Models.Customer;
 using Ecommerce.Models.EntityModels.CustomerEM;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Ecommerce.Models.ResponseModels;
+using AutoMapper;
 
 namespace Ecommerce.Controllers
 {
     public class CustomerController : Controller
     {
+        
         ICustomerManager _customerManager;
-        public CustomerController(ICustomerManager customerManager)
+        IMapper _mapper;
+        public CustomerController(ICustomerManager customerManager, IMapper mapper)
         {
             _customerManager = customerManager;
+            _mapper = mapper;
         }
         [HttpGet]
         public IActionResult Index()
         {
-            Customer customer = new Customer();
-            customer.Customers = _customerManager.GetAll();
+            CustomerCreateViewModel customer = new CustomerCreateViewModel();
+            //customer.CustomerList = _customerManager.GetAll().Select(c=>new CustomerResponseModel
+            //{
+            //    Id=c.Id,
+            //    Name=c.Name,
+            //    PhoneNo=c.PhoneNo,
+            //    Address=c.Address
+            //}).ToList();
+            customer.CustomerList = _customerManager.GetAll()
+                .Select(c => _mapper.Map<CustomerResponseModel>(c))
+                .ToList();
             return View(customer);
         }
         [HttpPost]
-        public IActionResult Index(Customer customer)
+        public IActionResult Index(CustomerCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
+                //Customer customer = new Customer() { 
+                //Name=model.Name,
+                //PhoneNo=model.PhoneNo,
+                //Address=model.Address,
+                //IsDeleted=model.IsDeleted,
+                //};
+
+                Customer customer = _mapper.Map<Customer>(model);
+
+                
 
                 bool isAdded = _customerManager.Add(customer);
                 if (isAdded)
