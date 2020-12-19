@@ -1,4 +1,5 @@
 ﻿using Ecommerce.BLL.Abstruction;
+using Ecommerce.BLL.Abstruction.Base;
 using Ecommerce.DAL;
 using Ecommerce.DAL.Abstruction;
 using Ecommerce.Models.EntityModels.CustomerEM;
@@ -8,37 +9,19 @@ using System.Text;
 
 namespace Ecommerce.BLL
 {
-    public    class CustomerManager:ICustomerManager
+    public class CustomerManager:Manager<Customer>,ICustomerManager
     {
         ICustomerReopsitory _customerRepository;
-        public CustomerManager(ICustomerReopsitory customerRepository)
+        public CustomerManager(ICustomerReopsitory customerRepository):base(customerRepository)
         {
             _customerRepository = customerRepository;
         }
 
-        public  ICollection<Customer> GetAll()
-        {
-           return _customerRepository.GetAll();
-        }
-
-        public bool Add(Customer customer)
-        {
-            return _customerRepository.Add(customer);
-        }
-
         public Customer GetById(int? id)
         {
-            return _customerRepository.GetById(id);
+            return _customerRepository.GetFirstOrDefault(c=>c.Id==id);
         }
 
-        public bool Update(Customer customer)
-        {
-            return _customerRepository.Update(customer);
-        }
-
-        public bool Remove(Customer customer)
-        {
-            return _customerRepository.Remove(customer);
-        }
+      
     }
 }

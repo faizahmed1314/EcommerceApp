@@ -1,9 +1,16 @@
-﻿@model Ecommerce.Models.EntityModels.CustomerEM.Customer
+﻿@model EcommerceApp.Models.Customer.CustomerEditViewModel
 <div class="container">
     <h1>Edit Customer </h1>
     <form method="post">
         <div class="form-row">
             <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+
+                <label for="CustomerTypeId">Customer Type</label>
+                <select type="text" class="form-control" asp-for="CustomerTypeId" asp-items="Model.CustomerTypeItems" placeholder="name">
+                    <option value="">---select---</option>
+                </select>
+            </div>
             <div class="form-group">
 
                 <label for="name">Name</label>

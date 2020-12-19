@@ -20,7 +20,7 @@ namespace Ecommerce.DAL
 
         public override ICollection<Customer> GetAll()
         {
-            return _db.customers.Where(c => c.IsDeleted == false).ToList();
+            return _db.customers.Include(c=>c.CustomerType).Where(c => c.IsDeleted == false).ToList();
         }
 
         public Customer GetById(int? id)

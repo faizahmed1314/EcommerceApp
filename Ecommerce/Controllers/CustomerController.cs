@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Ecommerce.Models.ResponseModels;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Ecommerce.Controllers
 {
@@ -18,10 +19,12 @@ namespace Ecommerce.Controllers
     {
         
         ICustomerManager _customerManager;
+        ICustomerTypeManager _customerTypeManager;
         IMapper _mapper;
-        public CustomerController(ICustomerManager customerManager, IMapper mapper)
+        public CustomerController(ICustomerManager customerManager, IMapper mapper, ICustomerTypeManager customerTypeManager)
         {
             _customerManager = customerManager;
+            _customerTypeManager = customerTypeManager;
             _mapper = mapper;
         }
         [HttpGet]
@@ -38,7 +41,14 @@ namespace Ecommerce.Controllers
             customer.CustomerList = _customerManager.GetAll()
                 .Select(c => _mapper.Map<CustomerResponseModel>(c))
                 .ToList();
+
+            customer.CustomerTypeItems = _customerTypeManager.GetAll().Select(c => new SelectListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).ToList();
             return View(customer);
+
         }
         [HttpPost]
         public IActionResult Index(CustomerCreateViewModel model)
@@ -53,8 +63,6 @@ namespace Ecommerce.Controllers
                 //};
 
                 Customer customer = _mapper.Map<Customer>(model);
-
-                
 
                 bool isAdded = _customerManager.Add(customer);
                 if (isAdded)
@@ -78,18 +86,26 @@ namespace Ecommerce.Controllers
         [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if(id!=null & id > 0)
+            CustomerEditViewModel model = new CustomerEditViewModel();
+            model.CustomerTypeItems = _customerTypeManager.GetAll().Select(c => new SelectListItem
             {
-                Customer customer = _customerManager.GetById(id);
-                if (customer != null)
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).ToList();
+           
+
+            if (id!=null & id > 0)
+            {
+                Customer existingCustomer = _customerManager.GetById(id);
+                
+               
+                if (existingCustomer != null)
                 {
-                    return View(customer);
+                    _mapper.Map<Customer, CustomerEditViewModel>(existingCustomer, model);
+                    
                 }
             }
-            
-
-
-            return View();
+            return View(model);
         }
 
         [HttpPost]

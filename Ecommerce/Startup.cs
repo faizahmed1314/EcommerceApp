@@ -34,6 +34,8 @@ namespace Ecommerce
 
             services.AddTransient<ICustomerManager, CustomerManager>();
             services.AddTransient<ICustomerReopsitory, CustomerRepository>();
+            services.AddTransient<ICustomerTypeManager, CustomerTypeManager>();
+            services.AddTransient<ICustomerTypeRepository, CustomerTypeRepository>();
             services.AddTransient<DbContext, EcommerceDbContext>();
             services.AddAutoMapper(typeof(Startup).Assembly);
         }

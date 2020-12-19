@@ -6,7 +6,9 @@
             <tr>
                 <th>Name</th>
                 <th>Phone Number</th>
+                <th>Customer Type</th>
                 <th>Address</th>
+
                 <th>Action</th>
             </tr>
         </thead>
@@ -16,6 +18,7 @@
                 <tr>
                     <td>@customer.Name</td>
                     <td>@customer.PhoneNo</td>
+                    <td>@(customer.CustomerType==null ? "N/A": customer.CustomerType.Name)</td>
                     <td>@customer.Address</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@customer.Id">Edit</a>|
