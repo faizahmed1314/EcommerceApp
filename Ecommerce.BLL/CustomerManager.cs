@@ -3,6 +3,7 @@ using Ecommerce.BLL.Abstruction.Base;
 using Ecommerce.DAL;
 using Ecommerce.DAL.Abstruction;
 using Ecommerce.Models.EntityModels.CustomerEM;
+using Ecommerce.Models.RequestModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,6 +23,9 @@ namespace Ecommerce.BLL
             return _customerRepository.GetFirstOrDefault(c=>c.Id==id);
         }
 
-      
+        public ICollection<Customer> GetByRequest(CustomerRequestModel customer)
+        {
+            return _customerRepository.GetByRequest(customer);
+        }
     }
 }
