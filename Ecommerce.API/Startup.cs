@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,6 +26,7 @@ namespace Ecommerce.API
         {
             services.AddControllersWithViews();
             Ecommerce.Configuration.ConfigurationServices.configure(services);
+            services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddMvc().AddXmlDataContractSerializerFormatters();
         }
 

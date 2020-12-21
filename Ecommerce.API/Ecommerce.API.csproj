@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
-
+	<ItemGroup>
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+	</ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ecommerce.BLL.Abstruction\Ecommerce.BLL.Abstruction.csproj" />
     <ProjectReference Include="..\Ecommerce.Configuration\Ecommerce.Configuration.csproj" />

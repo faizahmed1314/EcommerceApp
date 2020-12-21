@@ -1,4 +1,5 @@
-﻿using Ecommerce.BLL.Abstruction;
+﻿using AutoMapper;
+using Ecommerce.BLL.Abstruction;
 using Ecommerce.Models.EntityModels.CustomerEM;
 using Ecommerce.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
@@ -10,14 +11,16 @@ using System.Threading.Tasks;
 
 namespace Ecommerce.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/customers")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
         ICustomerManager _customerManager;
-        public CustomersController(ICustomerManager customerManager)
+        IMapper _mapper;
+        public CustomersController(ICustomerManager customerManager, IMapper mapper)
         {
             _customerManager = customerManager;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -34,7 +37,7 @@ namespace Ecommerce.API.Controllers
 
         //api/customers/12
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name ="GetById")]
         public IActionResult GetById(int? id)
         {
             if (id <= 0)
@@ -47,6 +50,30 @@ namespace Ecommerce.API.Controllers
                 return NotFound();
             }
             return Ok(customer);
+        }
+
+        [HttpPost]
+        public IActionResult PostCustomer([FromBody]CustomerCreateDTO customerDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var customerEntity = _mapper.Map<Customer>(customerDto);
+                bool isSaved = _customerManager.Add(customerEntity);
+                if (isSaved)
+                {
+                    customerDto.Id = customerEntity.Id;
+                    //return Ok(customerDto);
+                    return CreatedAtRoute("GetById", new { id = customerDto.Id }, customerDto);
+                }
+                else
+                {
+                    return BadRequest("Customer could not be saved!");
+                }
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
         }
     }
 }
