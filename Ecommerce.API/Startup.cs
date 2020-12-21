@@ -27,7 +27,7 @@ namespace Ecommerce.API
             services.AddControllersWithViews();
             Ecommerce.Configuration.ConfigurationServices.configure(services);
             services.AddAutoMapper(typeof(Startup).Assembly);
-            services.AddMvc().AddXmlDataContractSerializerFormatters();
+            services.AddMvc().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -3,6 +3,7 @@ using Ecommerce.BLL.Abstruction;
 using Ecommerce.Models.EntityModels.CustomerEM;
 using Ecommerce.Models.RequestModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -106,6 +107,29 @@ namespace Ecommerce.API.Controllers
             catch(Exception ex)
             {
                 return BadRequest("Server error occured. Please contact with the vendor");
+            }
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult PatchCustomer(int id,[FromBody] JsonPatchDocument<CustomerUpdateDTO> patchDoc)
+        {
+            var customer = _customerManager.GetById(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            var customerDto = _mapper.Map<CustomerUpdateDTO>(customer);
+
+            patchDoc.ApplyTo(customerDto);
+            _mapper.Map(customerDto, customer);
+            var isUpdated = _customerManager.Update(customer);
+            if (isUpdated)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Update Failed!");
             }
         }
     }
