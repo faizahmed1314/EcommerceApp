@@ -75,5 +75,38 @@ namespace Ecommerce.API.Controllers
                 return BadRequest(ModelState);
             }
         }
+
+        //api/customers/12
+        [HttpPut("{id}")]
+        public IActionResult PutCustomer(int? id, [FromBody] CustomerUpdateDTO CustomerDto)
+        {
+            try
+            {
+                var existingCustomer = _customerManager.GetById(id);
+                if (existingCustomer == null)
+                {
+                    return NotFound();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                //map update dto data to existing customer data
+                var customer = _mapper.Map(CustomerDto, existingCustomer);
+                var isUpdated = _customerManager.Update(customer);
+                if (isUpdated)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest("Update Failed!");
+                }
+            }
+            catch(Exception ex)
+            {
+                return BadRequest("Server error occured. Please contact with the vendor");
+            }
+        }
     }
 }
