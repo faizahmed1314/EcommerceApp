@@ -13,16 +13,21 @@ namespace Ecommerce.Database.Database
 {
     public class EcommerceDbContext : DbContext
     {
+        public EcommerceDbContext(DbContextOptions options):base(options)
+        {
+
+        }
         public DbSet<Customer> customers { get; set; }
         //public DbSet<Product> products { get; set; }
         //public DbSet<Category> categories { get; set; }
+
         //public DbSet<CustomerType> customerTypes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            string connectionString = "Server=(local); Database=EcommerceDB; Integrated Security = true;";
-            optionsBuilder.UseSqlServer(connectionString);
+            //string connectionString = "Server=(local); Database=EcommerceDB; Integrated Security = true;";
+            //optionsBuilder.UseSqlServer(connectionString);
         }
     }
 }

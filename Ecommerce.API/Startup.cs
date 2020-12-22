@@ -25,7 +25,7 @@ namespace Ecommerce.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            Ecommerce.Configuration.ConfigurationServices.configure(services);
+            Ecommerce.Configuration.ConfigurationServices.configure(services,Configuration);
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddMvc().AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
         }
