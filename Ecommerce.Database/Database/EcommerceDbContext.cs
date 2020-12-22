@@ -18,8 +18,8 @@ namespace Ecommerce.Database.Database
 
         }
         public DbSet<Customer> customers { get; set; }
-        //public DbSet<Product> products { get; set; }
-        //public DbSet<Category> categories { get; set; }
+        public DbSet<Product> products { get; set; }
+        public DbSet<Category> categories { get; set; }
 
         //public DbSet<CustomerType> customerTypes { get; set; }
 
