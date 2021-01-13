@@ -109,8 +109,9 @@ namespace Ecommerce.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(Customer customer)
+        public IActionResult Edit(CustomerEditViewModel model)
         {
+            var customer=_mapper.Map<Customer>(model);
 
             bool isUpdated = _customerManager.Update(customer);
             if (isUpdated)

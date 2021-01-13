@@ -24,6 +24,8 @@ namespace Ecommerce.Configuration
             services.AddTransient<ICustomerReopsitory, CustomerRepository>();
             services.AddTransient<ICustomerTypeManager, CustomerTypeManager>();
             services.AddTransient<ICustomerTypeRepository, CustomerTypeRepository>();
+            services.AddTransient<IProductManager, ProductManager>();
+            services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<DbContext, EcommerceDbContext>();
         }
     }

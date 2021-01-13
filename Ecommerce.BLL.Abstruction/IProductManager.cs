@@ -1,18 +1,14 @@
-﻿using Ecommerce.Models.EntityModels.ProductEM;
+﻿using Ecommerce.BLL.Abstruction.Base;
+using Ecommerce.Models.EntityModels.ProductEM;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Ecommerce.BLL.Abstruction
 {
-    public interface IProductManager
+    public interface IProductManager:IManager<Product>
     {
-        bool Add(Product customer);
-
-        bool Update(Product customer);
-
-        bool Remove(Product customer);
-        ICollection<Product> GetAll();
+        
         Product GetById(int? id);
     }
 }

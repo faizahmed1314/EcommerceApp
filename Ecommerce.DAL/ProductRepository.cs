@@ -5,6 +5,7 @@ using Ecommerce.Models.EntityModels.ProductEM;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Ecommerce.DAL
@@ -19,7 +20,11 @@ namespace Ecommerce.DAL
 
         public Product GetById(int? id)
         {
-            return GetFirstOrDefault(c => c.Id == id);
+            return _db.products.Include(c => c.Category).FirstOrDefault(c => c.Id == id);
+        }
+        public override ICollection<Product> GetAll()
+        {
+            return _db.products.Include(c => c.Category).ToList();
         }
     }
 }
